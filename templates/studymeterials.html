@@ -1,0 +1,149 @@
+{% extends "teacherindex.html" %}
+{% block content%}
+<style>
+    .containerc{
+        background-color: darkblue;
+    }
+    .content{
+        background-color: none;
+        padding: 30px;
+        text-align: center;
+    }
+    .content .items{
+        padding: 20px;
+    }
+    .modal input, select{
+        padding: 6px;
+        width: 100%;
+        border-radius: 6px;
+        border: .5px solid gray;
+    }
+    .content1{
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .modal input, select{
+        padding: 6px;
+        width: 100%;
+        border-radius: 6px;
+        border: .5px solid gray;
+    }
+    .content1{
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container containerc mt-5 mb-5">
+    <div class="content">
+        <h3 class="text-white">Add Study Referencess</h3>
+
+        {% for message in messages %}
+                          <h6 style="color:red;text-align:center">{{message}}</h6> 
+                           {% endfor %}
+<br><br><br>
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-light" >Add A merial</button>
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-light" >Add A Video</button>
+<br><br>
+
+        <h4 class="text-white">Study Materials</h4>
+        <table class="table  table-info mt-5">
+            
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Download</th>
+                <th>Delete</th>
+            </tr>
+
+            {% for m in materials %}
+
+            <td>{{m.Title}}</td>
+            <td>{{m.description}}</td>
+            <td><img src="{{m.Banner_image.url}}" width="60px" alt=""></td>
+            <th><a href="{{m.Metirial.url}}" target="_blank" class="btn btn-dark">Download</a></th>
+            <th><a href="{%url 'DeleteMeterial' m.id %}" class="btn btn-danger">Delete</a></th>
+            {% endfor %}
+        </table>
+
+
+        <br><br>
+
+        <h4 class="text-white">Video Study Meterials</h4>
+        <table class="table  table-info mt-5">
+            
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            
+                <th>Delete</th>
+            </tr>
+
+            {% for m in videos %}
+
+            <td>{{m.Title}}</td>
+            <td>{{m.description}}</td>
+            <th><a href="{%url 'DeleteVideo' m.id %}" class="btn btn-danger">Delete</a></th>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Study Material</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div class="modal-body">
+            {% for field in form %}
+            {{field.label}}:
+            {{field}}
+            {% endfor %}
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2-->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Study Video</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="{%url 'VideoSave' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div class="modal-body">
+            {% for field in form1 %}
+            {{field.label}}:
+            {{field}}
+            {% endfor %}
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,4 +1,42 @@
 {% extends "teacherindex.html" %}
 {% block content%}
+<style>
+    .con{
+        background-color: darkblue;
+        padding: 30px;
+    }
+    .content{
+        background-color: white;
+        border-radius: 10px;
+    }
+</style>
 
+
+<div class="container con">
+    <div class="content mt-5 mb-5">
+        <h3>Students In My Course</h3>
+        {% for message in messages %}
+        <h6 style="color:red;text-align:center">{{message}}</h6> 
+         {% endfor %}
+        <table class="table table-info">
+            <tr>
+                <th>Student Name</th>
+                <th>Student Last Name</th>
+                <th>Course</th>
+                <th>Phone Number</th>
+                <th>View Marks</th>
+            </tr>
+            {% for i in student %}
+            <tr>
+                <td>{{i.user.first_name}}</td>
+                <td>{{i.user.last_name}}</td>
+                <td>{{i.course}}</td>
+                <td>{{i.Phone_number}}</td>
+                <td><a href="{%url 'TeacherMarkView' i.id %}" class="btn btn-dark btn-sm">View Marks</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
 {% endblock %}

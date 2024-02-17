@@ -1,0 +1,90 @@
+{% extends "homeindex.html" %}
+{% block content%}
+<style>
+    .containerc{
+        background-color: darkblue;
+        padding: 40px;
+    }
+    .content{
+        background-color: none;
+    }
+    .content .items{
+        padding: 20px;
+    }
+    .modal input, select{
+        padding: 6px;
+        width: 100%;
+        border-radius: 6px;
+        border: .5px solid gray;
+    }
+    .content1{
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .material{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+    .material .cards{
+        width:250px;
+        height: 300px;
+        padding: 10px;
+        border: .5px solid gray;
+        border-radius: 10px;
+        background-color: white;
+    }
+    .material img{
+        width:100%;
+        height: 100px;
+    }
+    .material .cards-video{
+        width:400px;
+        height: 400px;
+        padding: 10px;
+        border: .5px solid gray;
+        border-radius: 10px;
+        background-color: white;
+    }
+    .material video{
+        width: 100%;
+        height: 200px;
+
+    }
+</style>
+
+<div class="container containerc">
+    <div class="content">
+        <h2 class="text-white">Study Materials</h2>
+        <div class="material">
+            {% for m in material %}
+            <div class="cards">
+                <h3>{{m.Title}}</h3>
+
+                <img src="{{m.Banner_image.url}}" alt="">
+                <br>
+                <p>{{m.description}}</p>
+                <a href="{{m.Metirial.url}}" target="_blank" class="btn btn-dark">Download</a>
+            </div>
+            {% endfor %}
+    </div>
+    </div>
+
+    <div class="content">
+        <h2 class="text-white">Study Videos</h2>
+        <div class="material">
+            {% for m in video %}
+            <div class="cards-video">
+                <h3>{{m.Title}}</h3>
+
+                <video controls  src="{{m.video.url}}"></video>
+                <br>
+                <p>{{m.description}}</p>
+                
+            </div>
+            {% endfor %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}

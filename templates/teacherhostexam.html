@@ -1,3 +1,81 @@
 {% extends "teacherindex.html" %}
 {% block content%}
+<style>
+    .containerc{
+        background-color: darkblue;
+    }
+    .content{
+        background-color: none;
+    }
+    .content .items{
+        padding: 20px;
+    }
+</style>
+
+<div class="container containerc">
+    <div class="content">
+        <div class="items">
+            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning">Add A Exam</a>
+            <br><br>
+
+            <h5 class="text-white">My Exams</h5>
+            {% for message in messages %}
+                          <h6 style="color:red;text-align:center">{{message}}</h6> 
+                           {% endfor %}
+            <table class="table table-success">
+                <tr>
+                    <th>Exam Name</th>
+                    <th>Total Question</th>
+                    <th>Marks</th>
+                    <th>Expery</th>
+                    <th>Action</th>
+                    <th>Delete</th>
+                </tr>
+                {% for exam in exams %}
+                <tr>
+                    <td>{{exam}}</td>
+                    <td>{{exam.question_number}}</td>
+                    <td>{{exam.total_marks}}</td>
+                    <td><b>{{exam.expery}}</b> 
+                        <form action="{%url 'Examexperyupdate' exam.id%}" method="post">
+                            {% csrf_token %}
+                            <label for="">Update Expery</label>
+                            <input type="datetime-local" name="date" required> <button class="btn btn-sm btn-info">Update</button>
+                        </form>
+                    </td>
+                    <td><a href="{%url 'AddQuestionstoexam' exam.id%}" class="btn btn-outline-dark btn-sm">View</a></td>
+                    <td><a href="{%url 'DeleteExam' exam.id %}" class="btn btn-danger btn-sm">delete</a></td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+        <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Enter Exam Name" name="exam">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Now</button>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

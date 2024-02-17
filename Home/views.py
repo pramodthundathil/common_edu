@@ -309,3 +309,22 @@ def ResumeTips(request):
     tip = ResumeWritingTips.objects.all()
     return render(request,"tips.html",{"tip":tip})
 
+def UpdateSkill(request,pk):
+    profile = StudentProfile.objects.get(id = pk)
+    if request.method == "POST":
+        skill = request.POST['skill']
+        profile.Skills = skill
+        profile.save()
+        messages.info(request,"Data Updated..")
+        return redirect("StudentsProfile")
+    return redirect("StudentsProfile")
+
+def UpdateLanguage(request,pk):
+    profile = StudentProfile.objects.get(id = pk)
+    if request.method == "POST":
+        skill = request.POST['lug']
+        profile.Languages = skill
+        profile.save()
+        messages.info(request,"Data Updated..")
+        return redirect("StudentsProfile")
+    return redirect("StudentsProfile")

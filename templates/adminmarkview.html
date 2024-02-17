@@ -1,0 +1,40 @@
+{% extends "adminindex.html" %}
+{% block content %}
+<div class="container">
+<h2 class="text-center">Students Mark</h2>
+{% for message in messages %}
+                          <h6 style="color:red;text-align:center">{{message}}</h6> 
+                           {% endfor %}
+
+<table class="table table-info table-borderless mt-3 mb-3">
+    {% for i in mark %}
+        
+        <tr>
+            <th>Student: <span class="text-primary">{{i.student.user.first_name}} {{i.student.user.last_name}}</span> </th>
+            <th>Teacher: <span class="text-primary">{{i.exam.teacher.user.first_name}} {{i.exam.teacher.user.last_name}}</span> </th>
+            <th>Exam Name: <span class="text-primary">{{i.exam}}</span> </th>
+            <th>Attended On <span class="text-primary">{{i.date}}</span> </th>
+            <th>Mark<h1>{{i.marks}}</h1></th>
+            <th>Status: 
+                {% if i.approval == True %}
+                <span class="badge bg-success">Approved</span>
+
+                {% else %}
+                <span class="badge bg-warning">Pending</span>
+
+                {% endif %}
+            </th>
+            <th><a href="{%url 'ApproveMarkAdmin' i.id %}" class="btn btn-success btn-sm">Approve</a></th>
+            <th><a href="{%url 'Deletemark' i.id%}" class="btn btn-danger btn-sm">Delete</a></th>
+        </tr>
+        <tr >
+            <td colspan="8" class="bg-white"></td>
+        </tr>
+    {% endfor %}
+
+       
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "teacherindex.html" %}
+{% block content%}
+<style>
+    .containerc{
+        background-color: darkblue;
+    }
+    .content{
+        background-color: none;
+    }
+    .content .items{
+        padding: 20px;
+    }
+    .modal input, select{
+        padding: 6px;
+        width: 100%;
+        border-radius: 6px;
+        border: .5px solid gray;
+    }
+    .content1{
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container containerc">
+    <div class="content">
+        <div class="items">
+            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-warning">Add Questions</a>
+            <a href="{%url 'HostExam' %}" class="btn btn-info">Back To Exam Host</a>
+            <br><br>
+
+            <h5 class="text-white">Question On Exam {{exam}}</h5>
+            {% for message in messages %}
+                          <h6 style="color:red;text-align:center">{{message}}</h6> 
+                           {% endfor %}
+            
+{% for i in question%}
+            <div class="content1 bg-white border-1 mt-3 mb-2">
+                <h4>{{forloop.counter}}</h4>
+               <h6>Question: {{i.question}} </h6> 
+               <h6 class="text-info">Options</h6>
+               <ol>
+                <li>{{i.option1}}</li>
+                <li>{{i.option2}}</li>
+                <li>{{i.option3}}</li>
+                <li>{{i.option4}}</li>
+               </ol>
+               <h6 class="text-success">Answer: {{i.answer}} </h6>
+               <h6>Marks: {{i.marks}}</h6>
+               <a href="{%url 'DeleteQuestion' i.id%}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Questions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+        <div class="modal-body">
+            {%for field in form%}
+
+            {{field.label}}: <br>
+            {{field}}<br><br>
+
+            {% endfor %}
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Now</button>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

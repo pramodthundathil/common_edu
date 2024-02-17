@@ -24,5 +24,7 @@ urlpatterns = [
     path("deletetip/<int:pk>",views.deletetip,name="deletetip"),
     path("ResumeTips",views.ResumeTips,name="ResumeTips"),
     path("TeacherIndex",views.TeacherIndex,name="TeacherIndex"),
+    path("UpdateSkill/<int:pk>",views.UpdateSkill,name="UpdateSkill"),
+    path("UpdateLanguage/<int:pk>",views.UpdateLanguage,name="UpdateLanguage"),
     
 ]  
