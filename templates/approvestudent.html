@@ -1,0 +1,32 @@
+{% extends "adminindex.html" %}
+{% block content %}
+<style>
+    .form-container{
+        width:40%;
+        margin: auto;
+        margin-top: 100px;
+        border: 1px solid darkblue;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h3>Add To course and Approve Student</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <select name="course" id="" class="form-control" required>
+                <option value="" selected disabled>-------------</option>
+                {% for i in course %}
+                <option value="{{i.id}}">{{i}}</option>
+                {% endfor%}
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-success">Approve</button>
+        </form>
+    </div>
+</div>
+
+{% endblock  %}

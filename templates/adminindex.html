@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Admin-Career-Connect</title>
+    <style>
+      body{
+        background-color: rgba(0, 0, 255, 0.164);
+      }
+        .content{
+            display: flex;
+            justify-content: space-around;
+        }
+        .content .items{
+            padding: 20px;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        }
+        .footer{
+          width:100%;
+          padding: 20px;
+          position: fixed;
+          bottom: 0;
+          text-align: center;
+          color: white;
+        }
+        .approvelcontents{
+          display: flex;
+          justify-content: space-around;
+        }
+        .approvelcontents .itemcontent{
+          padding: 20px;
+          width: 90%;
+          
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Career Connect</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              {% comment %} <li class="nav-item">
+                <a class="nav-link" href="#">Recruiters</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Students</a>
+              </li> {% endcomment %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  More Edits
+                </a>
+                <ul class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                  
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Admin Pannel
+                </a>
+                <ul class="dropdown-menu bg-primary" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{%url 'SignOut' %}">Logout</a></li>
+                  
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+{% block content %}
+
+    <div class="container mt-5">
+      {% for message in messages %}
+      <h6 style="color:red;text-align:center">{{message}}</h6> 
+       {% endfor %}
+        <div class="content">
+        <div class="items">
+            Pending Recruiter requests
+            <h3>{{unapproved_recruitrs_count}}</h3>
+            
+            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-dark">View</a>
+        </div>
+        <div class="items">
+          Approved Recruiters
+          <h3>{{approved_recruitrs_count}}</h3>
+
+          <a href="" class="btn btn-dark">View</a>
+      </div>
+        <div class="items">
+            Jobs Pending For approval
+            <h3>{{apjob_count}}</h3>
+            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  class="btn btn-dark">View</a>
+
+        </div>
+        <div class="items">
+            Total Jobs Posted
+            <h3>{{job_count}}</h3>
+            <a href="" class="btn btn-dark">View</a>
+
+        </div>
+        <div class="items">
+            Total Application
+            <h3>{{jobapplication_count}}</h3>
+            <a data-bs-toggle="modal" data-bs-target="#staticBackdrop2"  class="btn btn-dark">View</a>
+        </div>
+    </div>
+
+    <div class="content mt-5" style="display: flex; justify-content: space-evenly;">
+      <div class="item">
+          <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-dark">Add Resume Writing Tip</a>
+      </div>
+      <div class="item">
+        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop3" class="btn btn-dark">View My Tips</a>
+      </div>
+      <div class="item">
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-dark">Add A New Course</a>
+      </div>
+      <div class="item">
+        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop10" class="btn btn-dark">All Course</a>
+      </div>
+      
+    </div>
+    </div>
+
+    <div class="approvelcontents mt-5 mb-5">
+      <div class="itemcontent">
+        <h3>Teachers For Approval</h3>
+        <table class="table table-stripped table-warning">
+          <tr>
+            <th>Teacher Name</th>
+            <th>Teacher Phone</th>
+            <th>Approve</th>
+          </tr>
+          {% for i in unapproved_teacherprofile  %}
+          
+          <tr>
+            <td>{{i.user.first_name}} {{i.user.last_name}}</td>
+            <td>{{i.Phone_number}}</td>
+            <td><a href="{%url 'ApproveTeacher' i.id %}" class="btn btn-outline-success">Approve</a> </td>
+          </tr>
+
+          {% endfor %}
+
+        </table>
+
+      </div>
+      <div class="itemcontent">
+        <h3>Students For Approval</h3>
+
+        <table class="table table-stripped table-info">
+          <tr>
+            <th>Student Name</th>
+            <th>Student Phone</th>
+            <th>Approve</th>
+          </tr>
+          {% for j in unapproved_studentprofile %}
+          
+          <tr>
+            <td>{{j.user.first_name}} {{j.user.last_name}}</td>
+            <td>{{j.Phone_number}}</td>
+            <td><a href="{%url 'ApproveStudent' j.pk%}" class="btn btn-outline-success">Approve</a></td>
+          </tr>
+
+          {% endfor %}
+
+        </table>
+
+      </div>
+    </div>
+
+{% endblock %}
+  <div class="footer bg-primary">
+    <footer>
+      admin pannel created by &copy; byteboot
+    </footer>
+  </div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Approval Pending Recruiter List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-stripped table-primary">
+            <tr>
+              <th>Recruiter Name</th>
+              <th>Profile Description</th>
+              <th>Field Of work</th>
+              <th>Company Logo</th>
+              <th>Approve</th>
+            </tr>
+          {% for items in unapproved_recruitrs  %}
+          
+            <tr>
+              <td>{{items.user.first_name}}</td>
+              <td>{{items.profile}}</td>
+              <td>{{items.field_of_work}}</td>
+              <td><img src="{{items.conmpany_logo_or_photo.url}}" width="50px" alt=""></td>
+              <td><a href="{%url 'ApproveRecruiter' items.id %}" class="btn btn-secondary btn-sm">Approve</a></td>
+            </tr>
+
+          {% endfor %}
+
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal 2-->
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Approval Pending Job List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-stripped table-primary">
+            <tr>
+              <th>Recruiter Name</th>
+              <th>Job Title</th>
+              <th>Job Category</th>
+              <th>Mode of work</th>
+              <th>Approve</th>
+            </tr>
+          {% for items in apjob  %}
+          
+            <tr>
+              <td>{{items.recruiter.first_name}}</td>
+              <td>{{items.Job_title}}</td>
+              <td>{{items.job_category}}</td>
+              <td>{{items.mode_of_work}}</td>
+              <td><a href="{%url 'ApproveJob' items.id %}" class="btn btn-secondary btn-sm">Approve</a></td>
+            </tr>
+
+          {% endfor %}
+
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal 3-->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Job application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-stripped table-primary">
+            <tr>
+              <th>Applicant Name</th>
+              <th>Job Title</th>
+              <th>Date Of application</th>
+              <th>Comapany</th>
+              <th>View</th>
+              <th>View Resume</th>
+              <th>Delete</th>
+              
+            </tr>
+          {% for items in jobapplication  %}
+          
+            <tr>
+              <td>{{items.applicant.first_name}}</td>
+              <td>{{items.job.Job_title}}</td>
+              <td>{{items.date}}</td>
+              <td>{{items.job.company_profile}}</td>
+              <td><a href="" class="btn btn-sm btn-info">View</a></td>
+              <td><a href="{{items.applicant_profile.resume.url}}" target="_blank" class="btn btn-sm btn-dark">Download</a></td>
+              <td><a href="{%url 'deleteapplication' items.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+
+          {% endfor %}
+
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal 4-->
+<div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Interview writing tips</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-stripped table-primary">
+            <tr>
+              <th>Title</th>
+              <th>Tip</th>
+              
+              <th>action</th>
+              
+            </tr>
+          {% for items in tip  %}
+          
+            <tr>
+              <td>{{items.tip_title}}</td>
+              <td>{{items.tip}}</td>
+              <td><a href="{%url 'deletetip' items.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+
+          {% endfor %}
+
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal 5 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Interview wriing Tip</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{%url 'AddResumewritingTip' %}" method="post">
+        {% csrf_token %}
+      
+      <div class="modal-body">
+        <input type="text" placeholder="Tip Title" class="form-control" name="title" required><br>
+        <textarea name="tip" id="" cols="30" rows="10" class="form-control" placeholder="tip" name="tip"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 6-->
+<div class="modal fade" id="staticBackdrop10" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-stripped table-primary">
+            <tr>
+              <th>Course</th>
+              
+              
+              <th>action</th>
+              
+            </tr>
+          {% for items in course  %}
+          
+            <tr>
+              <td>{{items.course}}</td>
+              
+              <td><a href="{%url 'Coursedelete' items.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+
+          {% endfor %}
+
+          </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal 7 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Course</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{%url 'AddNewCourse' %}" method="post">
+        {% csrf_token %}
+      
+      <div class="modal-body">
+        <input type="text" placeholder="Course Name" class="form-control" name="course" required><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save </button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
