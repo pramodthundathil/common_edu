@@ -142,7 +142,7 @@ def RecruiterSignUp(request):
         logo = request.FILES["logo"]
         form = UserAddForm(request.POST)
 
-        if form.is_valid:
+        if form.is_valid():
             user = form.save()
             user.save()
             group = Group.objects.get(name='recruiter')
@@ -166,7 +166,7 @@ def TeacherSignUp(request):
         photo = request.FILES["photo"]
 
 
-        if form.is_valid:
+        if form.is_valid():
             user = form.save()
             user.save()
             group = Group.objects.get(name='teacher')
