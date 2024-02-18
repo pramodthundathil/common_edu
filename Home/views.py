@@ -124,7 +124,7 @@ def SignUp(request):
             user.save()
             group = Group.objects.get(name='student')
             user.groups.add(group)
-            profile = StudentProfile.objects.create(user = request.user, last_name = lname , Phone_number = phone , address = address ,Bio_Discription = bio , Languages = lng , resume = resume , Photo = photo, Skills = skills   )
+            profile = StudentProfile.objects.create(user = user, last_name = lname , Phone_number = phone , address = address ,Bio_Discription = bio , Languages = lng , resume = resume , Photo = photo, Skills = skills   )
             profile.save()
             messages.success(request,"User Created.. Please Login....")
             return redirect("SignIn")
