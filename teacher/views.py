@@ -148,8 +148,13 @@ def StudentsMark(request):
 
 def StudentExams(request):
     student = StudentProfile.objects.get(user = request.user )
-    teacher = TeacherProfile.objects.get(course = student.course)
-    exam = Exam.objects.filter(teacher = teacher, expery__gte = datetime.now() )
+    teacher = TeacherProfile.objects.filter(course = student.course)
+    exam = []
+    for teach in teacher:
+        val =Exam.objects.filter(teacher = teach, expery__gte = datetime.now() )
+        for i in val:
+            exam.append(i)
+        
 
     context = {
         "exam":exam
