@@ -118,8 +118,9 @@ def SignUp(request):
         skills = request.POST["skills"] 
         photo = request.FILES["photo"]
         resume = request.FILES["resume"]
+        form = UserAddForm(request.POST)
 
-        if form.is_valid:
+        if form.is_valid():
             user = form.save()
             user.save()
             group = Group.objects.get(name='student')
