@@ -3,6 +3,8 @@ from django.contrib import messages
 from .froms import JobAddForm 
 from .models import Joblist, Jobapplication, InterViewSchedule
 from Home.models import RecruiterData, StudentProfile, Education
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 def JobListing(request):
     form = JobAddForm()
@@ -82,11 +84,26 @@ def studentProfileRecruiterView(request,pk):
 
 def InterviewSchedule(request,pk):
     job = Jobapplication.objects.get(id = pk)
+    appiliacntemail = job.applicant.email
+    
     if request.method == "POST":
         date = request.POST["date"]
         time = request.POST["time"]
         interview = InterViewSchedule.objects.create(date = date,time = time,applicant = job.applicant, job = job.job, company = job.job.company_profile)
         interview.save()
+
+
+        mail_subject = 'Interview Schrduled'
+        message = render_to_string('emailbody.html', {'name': job.applicant.first_name,
+                                                      "company":job.job.company_profile,
+                                                        "position":job.job,
+                                                        "date":interview.date,
+                                                        "time":interview.time,
+                                                        
+                                                        })
+
+        email = EmailMessage(mail_subject, message, to=[appiliacntemail])
+        email.send(fail_silently=True)
         messages.info(request,"Interview Scheduled.....")
         return redirect("studentProfileRecruiterView", pk = pk)
 
